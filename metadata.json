@@ -1,0 +1,6 @@
+{
+    "uuid": "daemon-info@bluec0re.eu",
+    "name": "Daemon Info",
+    "description": "Shows quick information about running daemons",
+    "icon": "utilities-system-monitor"
+}

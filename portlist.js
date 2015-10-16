@@ -20,9 +20,10 @@ PortList.prototype = {
 
         actor.add(new St.Label({text: 'Protocol', style: 'padding-right: 5px'}), {row: 0, col: 0});
         actor.add(new St.Label({text: 'Address', style: 'padding-right: 5px; padding-left: 5px'}), {row: 0, col: 1});
-        actor.add(new St.Label({text: 'Port', style: 'padding-left: 5px'}), {row: 0, col: 2});
+        actor.add(new St.Label({text: 'Port', style: 'padding-right: 5px; padding-left: 5px'}), {row: 0, col: 2});
+        actor.add(new St.Label({text: 'Exe', style: 'padding-left: 5px'}), {row: 0, col: 3});
 
-        let tr = new TerminalReader('/usr/bin/ss -ltun', function(cmd, success, result) {
+        let tr = new TerminalReader('/usr/bin/ss -ltunp', function(cmd, success, result) {
             let lines = result.split('\n');
             for(let i = 1; i < lines.length; i++) {
                 let line = lines[i];
@@ -41,10 +42,14 @@ PortList.prototype = {
                     let port = raddr.pop();
                     raddr = [raddr.join(':'), port];
                 }
+                let exe = '';
+                if(line.length > 5)
+                    exe = line[6];
 
                 actor.add(new St.Label({text: proto, style: 'padding-right: 5px'}), {row: i, col: 0});
                 actor.add(new St.Label({text: laddr[0], style: 'padding-right: 5px; padding-left: 5px'}), {row: i, col: 1});
-                actor.add(new St.Label({text: laddr[1], style: 'padding-left: 5px'}), {row: i, col: 2});
+                actor.add(new St.Label({text: laddr[1], style: 'padding-right: 5px; padding-left: 5px'}), {row: i, col: 2});
+                actor.add(new St.Label({text: exe, style: 'padding-left: 5px'}), {row: i, col: 3});
             }
 
             for(let child of actor.get_children()) {
